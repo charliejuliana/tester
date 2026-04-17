@@ -5,6 +5,7 @@ body {
   color: white;
 }
 
+/* HEADER (all pages) */
 header {
   background: rgba(2,6,23,0.95);
   padding: 15px;
@@ -31,6 +32,7 @@ nav a:hover {
   background: #14532d;
 }
 
+/* CARDS */
 .card {
   background: rgba(30,41,59,0.9);
   padding: 15px;
@@ -39,6 +41,7 @@ nav a:hover {
   border: 1px solid #1f2937;
 }
 
+/* BUTTONS */
 button {
   padding: 10px;
   border: none;
@@ -53,6 +56,7 @@ button:hover {
   background: #16a34a;
 }
 
+/* INPUTS */
 input {
   padding: 8px;
   margin: 5px 0;
@@ -61,6 +65,7 @@ input {
   border: none;
 }
 
+/* PLAYERS */
 .player {
   display: flex;
   align-items: center;
@@ -74,6 +79,7 @@ input {
   border: 2px solid #22c55e;
 }
 
+/* TABLE */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -85,9 +91,46 @@ input {
   text-align: left;
 }
 
+/* BADGES */
 .badge {
   background: #14532d;
   padding: 3px 8px;
   border-radius: 999px;
   font-size: 12px;
+}
+
+/* HERO (HOME PAGE) */
+.hero {
+  background: linear-gradient(135deg,#22c55e,#0ea5e9,#a855f7);
+  padding: 70px 20px;
+  text-align: center;
+  border-radius: 0 0 25px 25px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin: 0;
+}
+
+.hero p {
+  opacity: 0.9;
+}
+
+/* IMAGE GRID */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.image-slot {
+  height: 140px;
+  background: rgba(255,255,255,0.08);
+  border: 2px dashed #22c55e;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a7f3d0;
 }
