@@ -14,7 +14,7 @@ function saveData(){
   localStorage.setItem('mg_tournaments', JSON.stringify(tournaments));
 }
 
-/* ---------------- LEADERBOARD ---------------- */
+/* ---------- LEADERBOARD ---------- */
 function renderLeaderboard(){
   const div = document.getElementById("leaderboardList");
   if(!div) return;
@@ -31,7 +31,7 @@ function renderLeaderboard(){
   });
 }
 
-/* ---------------- PLAYERS ---------------- */
+/* ---------- PLAYERS ---------- */
 function renderPlayers(){
   const div = document.getElementById("playersList");
   if(!div) return;
@@ -46,7 +46,7 @@ function renderPlayers(){
   });
 }
 
-/* ---------------- TOURNAMENTS ---------------- */
+/* ---------- TOURNAMENTS ---------- */
 function renderTournaments(){
   const div = document.getElementById("tournamentList");
   if(!div) return;
@@ -64,7 +64,7 @@ function renderTournaments(){
   });
 }
 
-/* ---------------- SINGLE TOURNAMENT PAGE ---------------- */
+/* ---------- SINGLE TOURNAMENT ---------- */
 function loadTournamentPage(){
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
@@ -80,17 +80,16 @@ function loadTournamentPage(){
   table.innerHTML = "";
 
   t.results.forEach(r=>{
-    const label = r.place;
     table.innerHTML += `
       <tr>
-        <td>${label}</td>
+        <td>${r.place}</td>
         <td>${r.name}</td>
         <td>${r.score}</td>
       </tr>`;
   });
 }
 
-/* ---------------- ADMIN ---------------- */
+/* ---------- ADMIN ---------- */
 function unlock(){
   if(document.getElementById("password").value === "TheTour2026"){
     document.getElementById("adminPanel").style.display = "block";
@@ -101,17 +100,17 @@ function unlock(){
 function initScores(){
   const div = document.getElementById("scores");
   div.innerHTML = "";
-  players.forEach((p,i)=>{
-    div.innerHTML += `${p.name}: <input type="number" id="score${i}"><br>`;
+  players.forEach(p=>{
+    div.innerHTML += `${p.name}: <input type="number" id="score-${p.name}"><br>`;
   });
 }
 
-/* ---------------- ADD TOURNAMENT ---------------- */
+/* ---------- ADD TOURNAMENT ---------- */
 function addTournament(){
   let results = [];
 
-  players.forEach((p,i)=>{
-    let val = document.getElementById(`score${i}`).value;
+  players.forEach(p=>{
+    let val = document.getElementById(`score-${p.name}`).value;
     if(val !== "") results.push({name:p.name, score:parseInt(val)});
   });
 
