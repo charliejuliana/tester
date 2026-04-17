@@ -14,7 +14,7 @@ function saveData(){
   localStorage.setItem('mg_tournaments', JSON.stringify(tournaments));
 }
 
-/* ---------- LEADERBOARD ---------- */
+/* ---------------- LEADERBOARD ---------------- */
 function renderLeaderboard(){
   const div = document.getElementById("leaderboardList");
   if(!div) return;
@@ -22,16 +22,21 @@ function renderLeaderboard(){
   const sorted = [...players].sort((a,b)=>b.points-a.points);
 
   div.innerHTML = "";
+
   sorted.forEach((p,i)=>{
     div.innerHTML += `
-      <div class="card">
-        #${i+1} ${p.name}
+      <div class="card player">
+        <img src="${p.img}">
+        <div style="flex:1">
+          <strong>#${i+1} ${p.name}</strong>
+        </div>
         <span class="badge">${p.points} pts</span>
-      </div>`;
+      </div>
+    `;
   });
 }
 
-/* ---------- PLAYERS ---------- */
+/* ---------------- PLAYERS ---------------- */
 function renderPlayers(){
   const div = document.getElementById("playersList");
   if(!div) return;
@@ -42,11 +47,12 @@ function renderPlayers(){
       <div class="card player">
         <img src="${p.img}">
         <span>${p.name}</span>
-      </div>`;
+      </div>
+    `;
   });
 }
 
-/* ---------- TOURNAMENTS ---------- */
+/* ---------------- TOURNAMENTS ---------------- */
 function renderTournaments(){
   const div = document.getElementById("tournamentList");
   if(!div) return;
@@ -60,11 +66,12 @@ function renderTournaments(){
         <a href="tournament.html?id=${i}">
           <button>View Leaderboard</button>
         </a>
-      </div>`;
+      </div>
+    `;
   });
 }
 
-/* ---------- SINGLE TOURNAMENT ---------- */
+/* ---------------- TOURNAMENT PAGE ---------------- */
 function loadTournamentPage(){
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
@@ -85,11 +92,12 @@ function loadTournamentPage(){
         <td>${r.place}</td>
         <td>${r.name}</td>
         <td>${r.score}</td>
-      </tr>`;
+      </tr>
+    `;
   });
 }
 
-/* ---------- ADMIN ---------- */
+/* ---------------- ADMIN ---------------- */
 function unlock(){
   if(document.getElementById("password").value === "TheTour2026"){
     document.getElementById("adminPanel").style.display = "block";
@@ -101,11 +109,14 @@ function initScores(){
   const div = document.getElementById("scores");
   div.innerHTML = "";
   players.forEach(p=>{
-    div.innerHTML += `${p.name}: <input type="number" id="score-${p.name}"><br>`;
+    div.innerHTML += `
+      ${p.name}: <input type="number" id="score-${p.name}">
+      <br>
+    `;
   });
 }
 
-/* ---------- ADD TOURNAMENT ---------- */
+/* ---------------- ADD TOURNAMENT ---------------- */
 function addTournament(){
   let results = [];
 
