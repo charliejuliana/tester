@@ -9,9 +9,23 @@ let players = JSON.parse(localStorage.getItem('mg_players')) || [
 
 let tournaments = JSON.parse(localStorage.getItem('mg_tournaments')) || [];
 
+let lastRankings = JSON.parse(localStorage.getItem('mg_last_rankings')) || {};
+
+/* ---------------- SAVE ---------------- */
 function saveData(){
   localStorage.setItem('mg_players', JSON.stringify(players));
   localStorage.setItem('mg_tournaments', JSON.stringify(tournaments));
+}
+
+/* ---------------- SAVE RANK SNAPSHOT ---------------- */
+function saveRankSnapshot(sortedPlayers){
+  let snapshot = {};
+
+  sortedPlayers.forEach((p, i) => {
+    snapshot[p.name] = i + 1;
+  });
+
+  localStorage.setItem('mg_last_rankings', JSON.stringify(snapshot));
 }
 
 /* ---------------- LEADERBOARD ---------------- */
@@ -21,29 +35,76 @@ function renderLeaderboard(){
 
   const sorted = [...players].sort((a,b)=>b.points-a.points);
 
+  let currentRanks = {};
+
+  sorted.forEach((p,i)=>{
+    currentRanks[p.name] = i + 1;
+  });
+
+  const prev = JSON.parse(localStorage.getItem('mg_last_rankings')) || {};
+
   div.innerHTML = "";
 
   sorted.forEach((p,i)=>{
+
+    const isLeader = i === 0;
+
+    let movement = "";
+    if(prev[p.name]){
+      if(prev[p.name] > currentRanks[p.name]){
+        movement = "⬆";
+      } else if(prev[p.name] < currentRanks[p.name]){
+        movement = "⬇";
+      } else {
+        movement = "→";
+      }
+    } else {
+      movement = "🆕";
+    }
+
     div.innerHTML += `
-      <div class="card player">
-        <img src="${p.img}">
-        <div style="flex:1">
-          <strong>#${i+1} ${p.name}</strong>
+      <div class="card player" style="
+        align-items:center;
+        justify-content:space-between;
+        border: ${isLeader ? "2px solid gold" : "1px solid #1f2937"};
+        background: ${isLeader ? "rgba(234,179,8,0.10)" : "rgba(30,41,59,0.9)"};
+        box-shadow: ${isLeader ? "0 0 18px rgba(234,179,8,0.35)" : "none"};
+      ">
+
+        <div style="display:flex; align-items:center; gap:12px;">
+          <img src="${p.img}" style="
+            border: ${isLeader ? "2px solid gold" : "2px solid #22c55e"};
+          ">
+
+          <div>
+            <div style="font-size:16px; font-weight:bold;">
+              #${i+1} ${p.name} ${isLeader ? "🏆" : ""} 
+              <span style="margin-left:8px;">${movement}</span>
+            </div>
+          </div>
+        </div>
+
         <div style="
-  font-size:26px;
-  font-weight:900;
-  background: linear-gradient(135deg,#22c55e,#16a34a);
-  color:black;
-  padding:10px 16px;
-  border-radius:12px;
-  min-width:90px;
-  text-align:center;
-  box-shadow:0 0 10px rgba(34,197,94,0.4);
-">
-        <span class="badge">${p.points} pts</span>
+          font-size:26px;
+          font-weight:900;
+          background: ${isLeader 
+            ? "linear-gradient(135deg,gold,#fbbf24)" 
+            : "linear-gradient(135deg,#22c55e,#16a34a)"};
+          color:black;
+          padding:10px 16px;
+          border-radius:12px;
+          min-width:90px;
+          text-align:center;
+          box-shadow:0 0 10px rgba(34,197,94,0.4);
+        ">
+          ${p.points} pts
+        </div>
+
       </div>
     `;
   });
+
+  saveRankSnapshot(sorted);
 }
 
 /* ---------------- PLAYERS ---------------- */
