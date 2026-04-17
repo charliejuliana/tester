@@ -29,7 +29,17 @@ function renderLeaderboard(){
         <img src="${p.img}">
         <div style="flex:1">
           <strong>#${i+1} ${p.name}</strong>
-        </div>
+        <div style="
+  font-size:26px;
+  font-weight:900;
+  background: linear-gradient(135deg,#22c55e,#16a34a);
+  color:black;
+  padding:10px 16px;
+  border-radius:12px;
+  min-width:90px;
+  text-align:center;
+  box-shadow:0 0 10px rgba(34,197,94,0.4);
+">
         <span class="badge">${p.points} pts</span>
       </div>
     `;
